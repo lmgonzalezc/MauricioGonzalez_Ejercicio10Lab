@@ -7,6 +7,8 @@ from datetime import datetime
 import matplotlib.pylab as plt
 import pandas as pd
 import scipy.signal as signal
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 datos=pd.read_csv('https://raw.githubusercontent.com/ComputoCienciasUniandes/FISI2029-201910/master/Seccion_1/Fourier/Datos/transacciones2008.txt',sep=";",header=None, decimal=",")
 datos[0]=pd.to_datetime(datos[0],format='%d/%m/%Y %H:%M:%S')
 #datos.set_index([0],inplace=True)
@@ -59,4 +61,15 @@ plt.ylabel(r"Costo")
 plt.xlabel("Fecha")
 plt.legend(['Residuales'])
 plt.savefig("FiltroCostos.png")
+plt.show()
+plt.figure(figsize=(20,7))
+ruido=cost-CostFil
+corr=signal.correlate(ruido,ruido,mode="full")
+plt.plot(corr[len(corr)//2:])
+plt.show()
+plt.figure(figsize=(20,7))
+ruido=cost-CostFil
+corr=signal.correlate(ruido,ruido,mode="full")
+plt.plot(corr[len(corr)//2:])
+plt.savefig("Correlacion.png")
 plt.show()
